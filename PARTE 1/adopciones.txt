@@ -1,0 +1,8 @@
+005 - Coco - Perro - macho - 4 - años - Inteligente, activo y perfecto para correr al aire libre. - Fecha de adopción: 23/09/2024
+003 - Max - Perro - macho - 2 años - Protector, obediente y leal. - Fecha de adopción: 23/09/2024
+009 - Fiona - Hámster - hembra - 1 año - Pequeña, juguetona y perfecta para un primer dueño. - Fecha de adopción: 23/09/2024
+010 - Lola - Gata - hembra - 8 años - Cariñosa, muy tranquila y perfecta para un hogar tranquilo. - Fecha de adopción: 23/09/2024
+006 - Nina - Gata - hembra - 6 años - Dormilona, amigable y buena con niños. - Fecha de adopción: 23/09/2024
+004 - Luna - Conejo - hembra - 1 año - Dulce, tímida y le encanta roer juguetes. - Fecha de adopción: 23/09/2024
+001 - Rex - Perro - macho - 5 años - Juguetón, cariñoso y muy enérgico. - Fecha de adopción: 23/09/2024
+008 - Kiwi - Ave (Loro) - macho - 2 años - Hablador, colorido y siempre curioso. - Fecha de adopción: 23/09/2024

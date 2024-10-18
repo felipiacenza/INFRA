@@ -1,0 +1,81 @@
+El objetivo de esta tarea es que los estudiantes demuestren su comprensión y habilidades prácticas en el uso de los comandos principales de la línea de comandos de Linux mediante la creación y ejecución de un script de Bash. En esta tarea, los estudiantes diseñarán un script que simulará una serie de acciones en un sistema Linux, utilizando una variedad de comandos para manipular archivos y directorios, interactuar con el sistema y realizar tareas comunes de administración.
+
+
+Ingreso
+
+
+Se tienen dos documentos de texto, un documento que guarda usuarios y contraseñas de administradores y otro que guarda usuarios y contraseñas de clientes.
+Inicialmente, se solicita registrar el usuario admin con la password admin.
+Al iniciar el script se solicitan las credenciales (las cuales se verifican con el archivo que corresponda). De ser correcta la autenticación, se muestra el menú que corresponda.
+
+
+Requerimientos:
+El estudiante debe tener en cuenta el ingreso de usuarios vacíos para la autenticación.
+Se penalizará el ingreso al menú si las credenciales no corresponden con su contraseña.
+Acciones disponibles para los clientes
+
+
+Iniciar sesión
+
+El cliente debe poder iniciar sesión con su cédula y contraseña previamente registrada por el administrador.
+
+
+Listar mascotas disponibles para adopción
+Se debe mostrar el nombre, tipo, edad, descripción
+
+
+Ejemplo: Rex - Perro - 5 - Juguetón, cariñoso y muy enérgico.
+
+
+Adoptar mascota
+
+Se listan las mascotas por número y por nombre. El cliente ingresa el número de la mascota que desea adoptar. Una vez confirmada la acción se elimina la mascota de las adopciones disponibles y se registra la adopción en un archivo adopciones.txt con los datos previos y la fecha de adopción en formato dd/mm/yyyy.
+
+
+Salir
+
+
+Acciones disponibles para los administradores
+
+
+Registrar usuario
+
+Se debe ingresar nombre, cédula, número de teléfono y fecha de nacimiento. Se debe verificar que el usuario no exista previamente.
+Nota: El estudiante es libre de decidir cómo le consulta al usuario si las nuevas credenciales corresponden a un cliente o un administrador. Un usuario NO puede ser cliente y administrador a la vez.
+
+
+Registro de mascotas
+Se solicita al usuario ingresar los siguientes datos: numero Identificador, tipo de mascota, nombre, sexo, edad, descripcion y fecha de ingreso al sistema.
+
+
+Ejemplo: 001 - Perro - Rex - Macho - 5 - Juguetón - 15/03/2024
+
+
+Requerimientos:
+
+
+Numero Identificador, debe ser un número entero y no se debe repetir, no es necesario que este sea consecutivo, pueden quedar números salteados (en el caso de adopción se elimina el registro).
+
+
+Edad, solo se admiten números enteros mayores a cero, se asume que todas las mascotas tienen más de un año.
+Siempre que el usuario termina una acción debe volver al menú principal o en caso de salir a la autenticación.
+
+
+Estadísticas de adopción
+
+
+Se desea conocer el impacto que el refugio está generando en la comunidad, es por eso que se solicita generar un conjunto de estadísticas que ayuden a evaluar su desempeño.
+
+
+Es necesario poder conocer el porcentaje de adopción para cada tipo de mascota.
+
+
+Determinar en qué mes se realizan más adopciones.
+
+
+Edad promedio de los animales adoptados.
+
+
+Salir
+
+
