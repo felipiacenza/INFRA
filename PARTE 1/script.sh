@@ -139,112 +139,73 @@ registrar_mascota() {
 }
 
 estadisticas() {
-    estadisticas() {
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
-        ## HECHO CON CHATGPT (ENTENDER SOLUCIÓN Y PLANTEAR OTRAS)
+    echo "Generando estadísticas de adopciones..."
+    echo "----------------------------------------------"
 
-        echo "Generando estadísticas de adopciones..."
-        echo "----------------------------------------------"
-
-        # Verificar si hay adopciones registradas
-        if [[ ! -s adopciones.txt ]]; then
-            echo "No hay adopciones registradas."
-            sleep 3
-            clear
-            menu_admin
-        fi
-
-        # Inicializar variables para las estadísticas
-        declare -A tipos_de_mascotas
-        declare -A adopciones_por_mes
-        total_adopciones=0
-        suma_edades=0
-        total_mascotas_con_edad=0
-
-        # Procesar archivo de adopciones
-        while IFS= read -r line; do
-            # Ejemplo de formato: "001 - Perro - Rex - Macho - 5 - Juguetón - Fecha de adopción: 15/03/2024"
-            tipo_mascota=$(echo "$line" | awk -F ' - ' '{print $2}')
-            edad_mascota=$(echo "$line" | awk -F ' - ' '{print $5}')
-            fecha_adopcion=$(echo "$line" | awk -F 'Fecha de adopción: ' '{print $2}')
-            mes_adopcion=$(echo "$fecha_adopcion" | cut -d '/' -f 2)
-
-            # Contabilizar adopciones por tipo de mascota
-            ((tipos_de_mascotas["$tipo_mascota"]++))
-
-            # Contabilizar adopciones por mes
-            ((adopciones_por_mes["$mes_adopcion"]++))
-
-            # Sumar edades para calcular promedio
-            if [[ "$edad_mascota" =~ ^[0-9]+$ ]]; then
-                suma_edades=$((suma_edades + edad_mascota))
-                ((total_mascotas_con_edad++))
-            fi
-
-            ((total_adopciones++))
-        done <adopciones.txt
-
-        # Calcular porcentaje de adopción por tipo de mascota
-        echo "Porcentaje de adopción por tipo de mascota:"
-        for tipo in "${!tipos_de_mascotas[@]}"; do
-            porcentaje=$(echo "scale=2; ${tipos_de_mascotas[$tipo]} * 100 / $total_adopciones" | bc)
-            echo "$tipo: $porcentaje%"
-        done
-        echo "----------------------------------------------"
-
-        # Calcular el mes con más adopciones
-        echo "Mes con más adopciones:"
-        max_adopciones=0
-        mes_mas_adopciones=""
-        for mes in "${!adopciones_por_mes[@]}"; do
-            if [[ ${adopciones_por_mes[$mes]} -gt $max_adopciones ]]; then
-                max_adopciones=${adopciones_por_mes[$mes]}
-                mes_mas_adopciones=$mes
-            fi
-        done
-        echo "El mes con más adopciones fue: $mes_mas_adopciones ($max_adopciones adopciones)"
-        echo "----------------------------------------------"
-
-        # Calcular la edad promedio de los animales adoptados
-        if [[ $total_mascotas_con_edad -gt 0 ]]; then
-            promedio_edad=$(echo "scale=2; $suma_edades / $total_mascotas_con_edad" | bc)
-            echo "Edad promedio de los animales adoptados: $promedio_edad años"
-        else
-            echo "No se pudo calcular la edad promedio debido a datos insuficientes."
-        fi
-        echo "----------------------------------------------"
-
-        echo "(presione cualquier tecla para continuar)"
-        read -n 1 -s
+    # Verificar si hay adopciones registradas
+    if [[ ! -s adopciones.txt ]]; then
+        echo "No hay adopciones registradas."
+        sleep 3
         clear
         menu_admin
-    }
+    fi
 
+    # Inicializar variables para las estadísticas
+    declare -A tipos_de_mascotas
+    declare -A adopciones_por_mes
+    total_adopciones=0
+    suma_edades=0
+    total_mascotas_con_edad=0
+
+    # Procesar archivo de adopciones
+    while IFS= read -r line; do
+        # Ejemplo de formato: "001 - Perro - Rex - Macho - 5 - Juguetón - Fecha de adopción: 15/03/2024"
+        tipo_mascota=$(echo "$line" | awk -F ' - ' '{print $2}')
+        edad_mascota=$(echo "$line" | awk -F ' - ' '{print $5}')
+        fecha_adopcion=$(echo "$line" | awk -F 'Fecha de adopción: ' '{print $2}')
+        mes_adopcion=$(echo "$fecha_adopcion" | cut -d '/' -f 2)
+
+        # Contabilizar adopciones por tipo de mascota
+        ((tipos_de_mascotas["$tipo_mascota"]++))
+
+        # Contabilizar adopciones por mes
+        ((adopciones_por_mes["$mes_adopcion"]++))
+
+        # Sumar edades para calcular promedio
+        if [[ "$edad_mascota" =~ ^[0-9]+$ ]]; then
+            suma_edades=$((suma_edades + edad_mascota))
+            ((total_mascotas_con_edad++))
+        fi
+
+        ((total_adopciones++))
+    done <adopciones.txt
+
+    # Calcular el mes con más adopciones
+    echo "Mes con más adopciones:"
+    max_adopciones=0
+    mes_mas_adopciones=""
+    for mes in "${!adopciones_por_mes[@]}"; do
+        if [[ ${adopciones_por_mes[$mes]} -gt $max_adopciones ]]; then
+            max_adopciones=${adopciones_por_mes[$mes]}
+            mes_mas_adopciones=$mes
+        fi
+    done
+    echo "El mes con más adopciones fue: $mes_mas_adopciones ($max_adopciones adopciones)"
+    echo "----------------------------------------------"
+
+    # Calcular la edad promedio de los animales adoptados
+    if [[ $total_mascotas_con_edad -gt 0 ]]; then
+        promedio_edad=$(echo "scale=2; $suma_edades / $total_mascotas_con_edad" | bc)
+        echo "Edad promedio de los animales adoptados: $promedio_edad años"
+    else
+        echo "No se pudo calcular la edad promedio debido a datos insuficientes."
+    fi
+    echo "----------------------------------------------"
+
+    echo "(presione cualquier tecla para continuar)"
+    read -n 1 -s
+    clear
+    menu_admin
 }
 
 menu_admin() {
