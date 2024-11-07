@@ -1,0 +1,17 @@
+# Dockerfile
+FROM node:14
+
+# Establecer el directorio de trabajo
+WORKDIR /usr/src/app
+
+# Copiar el archivo de configuración
+# COPY config.json ./config.json
+
+# Instalar dependencias si es necesario
+RUN npm install -g code-server
+
+# Exponer el puerto para el servidor
+EXPOSE 8080
+
+# Comando para iniciar el servidor
+CMD ["code-server", "--host", "0.0.0.0", "--port", "8080", "--auth", "none"]
