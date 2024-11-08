@@ -3,7 +3,7 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-sem_t ip, m1, f1, ed, m2, f2, pa, paM2, paEd, bdd, rc, rcF2, rcPa, so, soPa, soRc, is, si, siRc, siBd, ia, iaPa, iaM2, cg, cgPa, cgF2, dw, dwRc, dwBd, sd, sdSo, sdRc, bd, bdBdd, bdM2, ro, roF2, roPa, cs, csSo, csSi, aa, aaPa, aaM2;
+sem_t ip, m1, f1, ed, m2, f2, paM2, paEd, bdd, rc, rcF2, rcPa, so, soPa, soRc, is, si, siRc, siBd, iaPa, iaM2, cgPa, cgF2, dwRc, dwBd, sdSo, sdRc, bdBdd, bdM2, roF2, roPa, csSo, csSi, aaPa, aaM2;
 
 void* introduccionProgramacion(void * x) {
     printf("Introducción a la Programación\n");
@@ -145,26 +145,38 @@ void* analisisAvanzado(void * x) {
 
 int main() {
    
-    sem_init(&ip, 0, 1); 
-    sem_init(&m1, 0, 1);
-    sem_init(&f1, 0, 1);
-    sem_init(&ed, 0, 0);
-    sem_init(&m2, 0, 0);
-    sem_init(&f2, 0, 0);
-    sem_init(&pa, 0, 0);
-    sem_init(&bdd, 0, 0);
-    sem_init(&rc, 0, 0);
-    sem_init(&so, 0, 0);
-    sem_init(&is, 0, 0);
-    sem_init(&si, 0, 0);
-    sem_init(&ia, 0, 0); 
-    sem_init(&cg, 0, 0);
-    sem_init(&dw, 0, 0);
-    sem_init(&sd, 0, 0);
-    sem_init(&bd, 0, 0);
-    sem_init(&ro, 0, 0);
-    sem_init(&cs, 0, 0);
-    sem_init(&aa, 0, 0);
+sem_init(&ip, 0, 1); 
+sem_init(&m1, 0, 1);
+sem_init(&f1, 0, 1);
+sem_init(&ed, 0, 0);
+sem_init(&m2, 0, 0);
+sem_init(&f2, 0, 0);
+sem_init(&paEd, 0, 0);
+sem_init(&paM2, 0, 0);
+sem_init(&bdd, 0, 0);
+sem_init(&rcF2, 0, 0);
+sem_init(&rcPa, 0, 0);
+sem_init(&soPa, 0, 0);
+sem_init(&soRc, 0, 0);
+sem_init(&is, 0, 0);
+sem_init(&siRc, 0, 0);
+sem_init(&siBd, 0, 0);
+sem_init(&iaPa, 0, 0);
+sem_init(&iaM2, 0, 0);
+sem_init(&cgPa, 0, 0);
+sem_init(&cgF2, 0, 0);
+sem_init(&dwRc, 0, 0);
+sem_init(&dwBd, 0, 0);
+sem_init(&sdSo, 0, 0);
+sem_init(&sdRc, 0, 0);
+sem_init(&bdBdd, 0, 0);
+sem_init(&bdM2, 0, 0);
+sem_init(&roPa, 0, 0);
+sem_init(&roF2, 0, 0);
+sem_init(&csSo, 0, 0);
+sem_init(&csSi, 0, 0);
+sem_init(&aaPa, 0, 0);
+sem_init(&aaM2, 0, 0);
 
     pthread_t tip, tmat1, tfis1, ted, tmat2, tfis2, tpa, tbdd, trc, tso, tis, tsi, tia, tcg, tdw, tsd, tbd, tro, tcs, taa;
     pthread_attr_t attr;
@@ -220,20 +232,32 @@ int main() {
     sem_destroy(&ed);
     sem_destroy(&m2);
     sem_destroy(&f2);
-    sem_destroy(&pa);
+    sem_destroy(&paEd);
+    sem_destroy(&paM2);
     sem_destroy(&bdd);
-    sem_destroy(&rc);
-    sem_destroy(&so);
+    sem_destroy(&rcF2);
+    sem_destroy(&rcPa);
+    sem_destroy(&soPa);
+    sem_destroy(&soRc);
     sem_destroy(&is);
-    sem_destroy(&si);
-    sem_destroy(&ia);
-    sem_destroy(&cg);
-    sem_destroy(&dw);
-    sem_destroy(&sd);
-    sem_destroy(&bd);
-    sem_destroy(&ro);
-    sem_destroy(&cs);
-    sem_destroy(&aa);
+    sem_destroy(&siRc);
+    sem_destroy(&siBd);
+    sem_destroy(&iaPa);
+    sem_destroy(&iaM2);
+    sem_destroy(&cgPa);
+    sem_destroy(&cgF2);
+    sem_destroy(&dwRc);
+    sem_destroy(&dwBd);
+    sem_destroy(&sdSo);
+    sem_destroy(&sdRc);
+    sem_destroy(&bdBdd);
+    sem_destroy(&bdM2);
+    sem_destroy(&roPa);
+    sem_destroy(&roF2);
+    sem_destroy(&csSo);
+    sem_destroy(&csSi);
+    sem_destroy(&aaPa);
+    sem_destroy(&aaM2);
 
     return 0;
 }
