@@ -3,118 +3,151 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-sem_t ip, m1, f1, ed, m2, f2, pa, bdd, rc, so, is, si, ia, cg, dw, sd, bd, ro, cs, aa;
+sem_t ip, m1, f1, ed, m2, f2, pa, paM2, paEd, bdd, rc, rcF2, rcPa, so, soPa, soRc, is, si, siRc, siBd, ia, iaPa, iaM2, cg, cgPa, cgF2, dw, dwRc, dwBd, sd, sdSo, sdRc, bd, bdBdd, bdM2, ro, roF2, roPa, cs, csSo, csSi, aa, aaPa, aaM2;
 
 void* introduccionProgramacion(void * x) {
     printf("Introducción a la Programación\n");
-    sem_post(&m1); 
-    sem_post(&f1); 
-    sem_post(&ed); 
+    sem_post(&ed);
 }
 
 void* matematica1(void * x) {
-    sem_wait(&m1);
     printf("Matemática 1\n");
-    sem_post(&m2); 
+    sem_post(&m2);
 }
 
 void* fisica1(void * x) {
-    sem_wait(&f1);
     printf("Física 1\n");
-    sem_post(&f2); 
+    sem_post(&f2);
 }
 
 void* estructuraDatos(void * x) {
     sem_wait(&ed);
     printf("Estructura de Datos\n");
-    sem_post(&pa); 
+    sem_post(&paEd);
+    sem_post(&bdd);
 }
 
 void* matematica2(void * x) {
     sem_wait(&m2);
     printf("Matemática 2\n");
-    sem_post(&bdd); 
-    sem_post(&rc); 
+    sem_post(&paM2);
+    sem_post(&iaM2);
+    sem_post(&bdM2);
+    sem_post(&aaM2);
 }
 
 void* fisica2(void * x) {
     sem_wait(&f2);
     printf("Física 2\n");
-    sem_post(&so); 
+    sem_post(&rcF2);
+    sem_post(&cgF2);
+    sem_post(&roF2);
 }
 
 void* programacionAvanzada(void * x) {
-    sem_wait(&pa);
+    sem_wait(&paEd);
+    sem_wait(&paM2);
     printf("Programación Avanzada\n");
+    sem_post(&rcPa);
+    sem_post(&soPa);
     sem_post(&is);
+    sem_post(&iaPa);
+    sem_post(&cgPa);
+    sem_post(&roPa);
+    sem_post(&aaPa);
 }
 
 void* basesDatos(void * x) {
     sem_wait(&bdd);
     printf("Bases de Datos\n");
+    sem_post(&siBd);
+    sem_post(&dwBd);
+    sem_post(&bdBdd);
 }
 
 void* redesComputadoras(void * x) {
-    sem_wait(&rc);
+    sem_wait(&rcPa);
+    sem_wait(&rcF2);
     printf("Redes de Computadoras\n");
-    sem_post(&so); 
+    sem_post(&soRc);
+    sem_post(&siRc);
+    sem_post(&dwRc);
+    sem_post(&sdRc);
 }
 
 void* sistemasOperativos(void * x) {
-    sem_wait(&so);
+    sem_wait(&soPa);
+    sem_wait(&soRc);
     printf("Sistemas Operativos\n");
+    sem_post(&sdSo);
+    sem_post(&csSo);
 }
 
 void* ingenieriaSoftware(void * x) {
     sem_wait(&is);
     printf("Ingeniería de Software\n");
-    sem_post(&si); 
 }
 
 void* seguridadInformatica(void * x) {
-    sem_wait(&si);
+    sem_wait(&siRc);
+    sem_wait(&siBd);
     printf("Seguridad Informática\n");
+    sem_post(&csSi);
 }
 
 void* inteligenciaArtificial(void * x) {
+    sem_wait(&iaPa);
+    sem_wait(&iaM2);
     printf("Inteligencia Artificial\n");
-    sem_post(&cg); 
 }
 
 void* computacionGrafica(void * x) {
-    sem_wait(&cg);
+    sem_wait(&cgPa);
+    sem_wait(&cgF2);
     printf("Computación Gráfica\n");
 }
 
 void* desarrolloWeb(void * x) {
+    sem_wait(&dwRc);
+    sem_wait(&dwBd);
     printf("Desarrollo Web\n");
 }
 
 void* sistemasDistribuidos(void * x) {
+    sem_wait(&sdSo);
+    sem_wait(&sdRc);
     printf("Sistemas Distribuidos\n");
 }
 
 void* bigData(void * x) {
+    sem_wait(&bdBdd);
+    sem_wait(&bdM2);
     printf("Big Data\n");
 }
 
 void* robotica(void * x) {
+    sem_wait(&roPa);
+    sem_wait(&roF2);
     printf("Robótica\n");
 }
 
 void* ciberseguridad(void * x) {
+    sem_wait(&csSo);
+    sem_wait(&csSi);
     printf("Ciberseguridad\n");
 }
 
 void* analisisAvanzado(void * x) {
+    sem_wait(&aaPa);
+    sem_wait(&aaM2);
     printf("Análisis Avanzado\n");
 }
 
 int main() {
    
     sem_init(&ip, 0, 1); 
-    sem_init(&m1, 0, 0);
-    sem_init(&f1, 0, 0);
+    sem_init(&m1, 0, 1);
+    sem_init(&f1, 0, 1);
     sem_init(&ed, 0, 0);
     sem_init(&m2, 0, 0);
     sem_init(&f2, 0, 0);
@@ -124,14 +157,14 @@ int main() {
     sem_init(&so, 0, 0);
     sem_init(&is, 0, 0);
     sem_init(&si, 0, 0);
-    sem_init(&ia, 0, 1); 
+    sem_init(&ia, 0, 0); 
     sem_init(&cg, 0, 0);
-    sem_init(&dw, 0, 1);
-    sem_init(&sd, 0, 1);
-    sem_init(&bd, 0, 1);
-    sem_init(&ro, 0, 1);
-    sem_init(&cs, 0, 1);
-    sem_init(&aa, 0, 1);
+    sem_init(&dw, 0, 0);
+    sem_init(&sd, 0, 0);
+    sem_init(&bd, 0, 0);
+    sem_init(&ro, 0, 0);
+    sem_init(&cs, 0, 0);
+    sem_init(&aa, 0, 0);
 
     pthread_t tip, tmat1, tfis1, ted, tmat2, tfis2, tpa, tbdd, trc, tso, tis, tsi, tia, tcg, tdw, tsd, tbd, tro, tcs, taa;
     pthread_attr_t attr;
