@@ -93,7 +93,7 @@ procedure Main is
       loop
          -- Leer la instrucción en la dirección del puntero de instrucción
          Memoria.Leer(IP, Valor_Memoria);
-         
+
          case Valor_Memoria is
             when 1 =>  -- LOAD
                IP := IP + 1;
@@ -143,14 +143,23 @@ procedure Main is
          -- Sincronización de la sección crítica
          Semaforo_Unico.Wait;
          -- Acceder a la memoria compartida de forma segura
-         Memoria.Leer(1, Valor_Memoria);
-         A := Valor_Memoria;
          if Numero = 1 then
-            A := A + 13;
+            -- CPU 1 carga, suma 13 y almacena en la posición 3
+            Memoria.Leer(1, Valor_Memoria);
+            A := Valor_Memoria + 13;
+            Memoria.Escribir(3, A);
+            if Debug then
+               Put_Line("CPU " & Numero'Image & " almacenó el valor: " & A'Image & " en la posición 3");
+            end if;
          elsif Numero = 2 then
-            A := A + 27;
+            -- CPU 2 carga el resultado de CPU 1, suma 27 y almacena en la posición 4
+            Memoria.Leer(3, Valor_Memoria);
+            A := Valor_Memoria + 27;
+            Memoria.Escribir(4, A);
+            if Debug then
+               Put_Line("CPU " & Numero'Image & " almacenó el valor: " & A'Image & " en la posición 4");
+            end if;
          end if;
-         Memoria.Escribir(1, A);
          Semaforo_Unico.Signal;
 
          delay 0.1;  -- Simular un pequeño retardo en la ejecución
@@ -183,7 +192,7 @@ begin
    declare
       Resultado_Final : Integer;
    begin
-      Memoria.Leer(1, Resultado_Final);
+      Memoria.Leer(4, Resultado_Final);
       Put_Line("Resultado final en la memoria: " & Resultado_Final'Image);
    end;
 
