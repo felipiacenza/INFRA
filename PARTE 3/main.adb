@@ -14,10 +14,11 @@ procedure Main is
    end Semaforo;
 
    task body Semaforo is
-      S : Integer := 0;
+      S : Integer := 0;  -- Valor del semáforo, inicialmente en cero
    begin
       loop
          select
+            -- Inicialización del semáforo con un valor específico
             accept Init (Valor_Inicial : Integer) do
                S := Valor_Inicial;
                if Debug then
@@ -25,6 +26,7 @@ procedure Main is
                end if;
             end Init;
          or
+            -- Operación de espera (Wait), decrementa el valor del semáforo
             when S > 0 =>
                accept Wait do
                   S := S - 1;
@@ -33,6 +35,7 @@ procedure Main is
                   end if;
                end Wait;
          or
+            -- Operación de señal (Signal), incrementa el valor del semáforo
             accept Signal do
                S := S + 1;
                if Debug then
@@ -53,10 +56,11 @@ procedure Main is
    end Memoria;
 
    task body Memoria is
-      Mem : array (0 .. Tamanho_Memoria) of Integer := (others => 0);
+      Mem : array (0 .. Tamanho_Memoria) of Integer := (others => 0);  -- Memoria de 128 posiciones inicializadas en cero
    begin
       loop
          select
+            -- Escritura en la memoria en una posición específica
             accept Escribir (Posicion : in Integer; Valor : in Integer) do
                if Debug then
                   Put_Line("Escribiendo en memoria. Posición: " & Posicion'Image & " Valor: " & Valor'Image);
@@ -64,6 +68,7 @@ procedure Main is
                Mem(Posicion) := Valor;
             end Escribir;
          or
+            -- Lectura de un valor de la memoria en una posición específica
             accept Leer (Posicion : in Integer; Valor : out Integer) do
                Valor := Mem(Posicion);
                if Debug then
@@ -80,13 +85,13 @@ procedure Main is
    end CPU;
 
    task body CPU is
-      A : Integer := 0;  -- Acumulador
-      IP : Integer := 0; -- Puntero de instrucción
+      A : Integer := 0;  -- Acumulador, almacena resultados de las operaciones
+      IP : Integer := 0; -- Puntero de instrucción, indica la posición actual en la memoria
       Valor_Memoria : Integer;
    begin
       accept Start do
          if Debug then
-            Put_Line("CPU " & Numero'Image & " iniciada");
+            Put_Line("CPU " & Numero'Image & " iniciada");  -- Mensaje indicando que la CPU ha sido iniciada
          end if;
       end Start;
 
@@ -95,7 +100,7 @@ procedure Main is
          Memoria.Leer(IP, Valor_Memoria);
 
          case Valor_Memoria is
-            when 1 =>  -- LOAD
+            when 1 =>  -- LOAD: cargar un valor en el acumulador
                IP := IP + 1;
                Memoria.Leer(IP, Valor_Memoria);
                A := Valor_Memoria;
@@ -103,7 +108,7 @@ procedure Main is
                   Put_Line("CPU " & Numero'Image & " ejecutó LOAD. Acumulador: " & A'Image);
                end if;
 
-            when 2 =>  -- STORE
+            when 2 =>  -- STORE: almacenar el valor del acumulador en una posición de memoria
                IP := IP + 1;
                Memoria.Leer(IP, Valor_Memoria);
                Memoria.Escribir(Valor_Memoria, A);
@@ -111,7 +116,7 @@ procedure Main is
                   Put_Line("CPU " & Numero'Image & " ejecutó STORE en posición " & Valor_Memoria'Image & " con valor: " & A'Image);
                end if;
 
-            when 4 =>  -- ADD
+            when 4 =>  -- ADD: sumar un valor al acumulador
                IP := IP + 1;
                Memoria.Leer(IP, Valor_Memoria);
                A := A + Valor_Memoria;
@@ -119,7 +124,7 @@ procedure Main is
                   Put_Line("CPU " & Numero'Image & " ejecutó ADD. Acumulador: " & A'Image);
                end if;
 
-            when 5 =>  -- SEMINIT (inicializar semáforo)
+            when 5 =>  -- SEMINIT: inicializar el semáforo
                IP := IP + 1;
                Memoria.Leer(IP, Valor_Memoria);
                Semaforo_Unico.Init(Valor_Memoria);
@@ -127,20 +132,20 @@ procedure Main is
                   Put_Line("CPU " & Numero'Image & " ejecutó SEMINIT con valor: " & Valor_Memoria'Image);
                end if;
 
-            when 99 =>  -- STOP
+            when 99 =>  -- STOP: finalizar la ejecución de la CPU
                if Debug then
                   Put_Line("CPU " & Numero'Image & " ejecutó STOP. Finalizando...");
                end if;
                exit;
 
             when others =>
-               null;
+               null;  -- Instrucción no reconocida
          end case;
 
-         -- Mover el puntero de instrucción
+         -- Mover el puntero de instrucción al siguiente valor
          IP := IP + 1;
 
-         -- Sincronización de la sección crítica
+         -- Sincronización de la sección crítica mediante el semáforo
          Semaforo_Unico.Wait;
          -- Acceder a la memoria compartida de forma segura
          if Numero = 1 then
@@ -160,9 +165,9 @@ procedure Main is
                Put_Line("CPU " & Numero'Image & " almacenó el valor: " & A'Image & " en la posición 4");
             end if;
          end if;
-         Semaforo_Unico.Signal;
+         Semaforo_Unico.Signal;  -- Liberar el semáforo para permitir que otra CPU acceda a la sección crítica
 
-         delay 0.1;  -- Simular un pequeño retardo en la ejecución
+         delay 0.1;  -- Simular un pequeño retardo en la ejecución para evitar bucle continuo
       end loop;
    end CPU;
 
@@ -177,18 +182,18 @@ begin
 
    -- Inicializar la memoria compartida con instrucciones y valores
    Put_Line("Memoria lista para ser utilizada.");
-   Memoria.Escribir(0, 1);  -- LOAD
-   Memoria.Escribir(1, 8);  -- Valor a cargar
-   Memoria.Escribir(2, 99); -- STOP
+   Memoria.Escribir(0, 1);  -- Instrucción LOAD
+   Memoria.Escribir(1, 8);  -- Valor a cargar en el acumulador
+   Memoria.Escribir(2, 99); -- Instrucción STOP para finalizar la CPU
 
    -- Iniciar las CPUs
    CPU_1.Start;
    CPU_2.Start;
 
-   -- Dejar que las CPUs ejecuten por un tiempo
+   -- Dejar que las CPUs ejecuten por un tiempo antes de finalizar
    delay 2.0;
 
-   -- Leer el resultado final desde la memoria
+   -- Leer el resultado final desde la memoria (posición 4)
    declare
       Resultado_Final : Integer;
    begin
