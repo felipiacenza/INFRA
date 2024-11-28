@@ -93,7 +93,7 @@ registrar_mascota() {
         fi
     done
 
-    # Ingresar tipo
+    # Ingresar tipo de mascota
     read -p "Ingrese tipo de mascota: " petType
 
     # Ingresar nombre
@@ -112,7 +112,7 @@ registrar_mascota() {
         fi
     done
 
-    # Ingresar edad (debe ser mayor a 0)
+    # Ingresar edad validada
     while true; do
         read -p "Edad: " petAge
         if [[ "$petAge" =~ ^[0-9]+$ && $petAge -gt 0 ]]; then
