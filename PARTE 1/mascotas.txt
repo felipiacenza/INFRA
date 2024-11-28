@@ -1,3 +1,11 @@
-002 - Mimi - Gata - hembra - 3 años - Independiente, tranquila y curiosa.
-007 - Toby - Perro - macho - 7 años - Muy tranquilo, ideal para compañía en el hogar.
-001 - perro - juan - macho - 6 - Tranquilo y manso como pozo de agua
+001 - Mimi - Gata - Hembra - 3 años - Independiente, tranquila y curiosa.  
+002 - Toby - Perro - Macho - 7 años - Muy tranquilo, ideal para compañía en el hogar.  
+003 - Coco - Conejo - Macho - 2 años - Dócil, juguetón y le encanta que lo acaricien.  
+004 - Luna - Gata - Hembra - 1 año - Cariñosa, activa y muy sociable con otros gatos.  
+005 - Rocky - Perro - Macho - 4 años - Enérgico, leal y perfecto para familias activas.  
+006 - Chispita - Hámster - Hembra - 6 meses - Curiosa, divertida y fácil de cuidar.  
+007 - Simba - Iguana - Macho - 5 años - Calmado, le gusta el sol y es perfecto para amantes de los reptiles.  
+008 - Pippo - Perico - Macho - 3 años - Colorido, alegre y con habilidad para aprender palabras.  
+009 - Bella - Coneja - Hembra - 1 año - Tranquila, dulce y le encanta explorar espacios nuevos.  
+010 - Max - Erizo - Macho - 2 años - Reservado, curioso y excelente para espacios pequeños.  
+011 - Kira - Hurona - Hembra - 2 años - Inteligente, juguetona y necesita mucha atención.  

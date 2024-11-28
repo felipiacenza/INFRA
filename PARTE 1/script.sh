@@ -60,7 +60,7 @@ mascota_unica() {
 validarMascotaEdad() {
     while true; do
         read -p "Edad: " petAge
-        if [[ $petAge > 0 ]]; then
+        if [[ "$petAge" =~ ^[0-9]+$ && $petAge -gt 0 ]]; then
             break
         else
             clear
@@ -141,6 +141,9 @@ registrar_mascota() {
 estadisticas() {
     echo "Generando estadísticas de adopciones..."
     echo "----------------------------------------------"
+
+    sleep 2
+    clear
 
     # Verificar si hay adopciones registradas
     if [[ ! -s adopciones.txt ]]; then
@@ -289,6 +292,8 @@ procesar_adopcion() {
                 break
             else
                 echo "Adopción cancelada."
+                sleep 2
+                clear
                 break
             fi
         else
