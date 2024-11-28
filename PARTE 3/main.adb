@@ -90,30 +90,80 @@ procedure Main is
          end if;
       end Start;
 
-      -- Ejecutar las operaciones
-      Semaforo_Unico.Wait;
-      if Debug then
-         Put_Line("CPU " & Numero'Image & " está ejecutando su sección crítica");
-      end if;
+      loop
+         -- Leer la instrucción en la dirección del puntero de instrucción
+         Memoria.Leer(IP, Valor_Memoria);
 
-      -- Leer el valor inicial desde la memoria (posición 0)
-      Memoria.Leer(0, Valor_Memoria);
-      A := Valor_Memoria;
+         case Valor_Memoria is
+            when 1 =>  -- LOAD
+               IP := IP + 1;
+               Memoria.Leer(IP, Valor_Memoria);
+               A := Valor_Memoria;
+               if Debug then
+                  Put_Line("CPU " & Numero'Image & " ejecutó LOAD. Acumulador: " & A'Image);
+               end if;
 
-      -- Realizar la operación ADD
-      if Numero = 1 then
-         A := A + 13;
-      elsif Numero = 2 then
-         A := A + 27;
-      end if;
+            when 2 =>  -- STORE
+               IP := IP + 1;
+               Memoria.Leer(IP, Valor_Memoria);
+               Memoria.Escribir(Valor_Memoria, A);
+               if Debug then
+                  Put_Line("CPU " & Numero'Image & " ejecutó STORE en posición " & Valor_Memoria'Image & " con valor: " & A'Image);
+               end if;
 
-      -- Escribir el resultado de vuelta en la memoria (posición 0)
-      Memoria.Escribir(0, A);
+            when 4 =>  -- ADD
+               IP := IP + 1;
+               Memoria.Leer(IP, Valor_Memoria);
+               A := A + Valor_Memoria;
+               if Debug then
+                  Put_Line("CPU " & Numero'Image & " ejecutó ADD. Acumulador: " & A'Image);
+               end if;
 
-      if Debug then
-         Put_Line("CPU " & Numero'Image & " escribió en memoria el valor: " & A'Image);
-      end if;
-      Semaforo_Unico.Signal;
+            when 5 =>  -- SEMINIT (inicializar semáforo)
+               IP := IP + 1;
+               Memoria.Leer(IP, Valor_Memoria);
+               Semaforo_Unico.Init(Valor_Memoria);
+               if Debug then
+                  Put_Line("CPU " & Numero'Image & " ejecutó SEMINIT con valor: " & Valor_Memoria'Image);
+               end if;
+
+            when 99 =>  -- STOP
+               if Debug then
+                  Put_Line("CPU " & Numero'Image & " ejecutó STOP. Finalizando...");
+               end if;
+               exit;
+
+            when others =>
+               null;
+         end case;
+
+         -- Mover el puntero de instrucción
+         IP := IP + 1;
+
+         -- Sincronización de la sección crítica
+         Semaforo_Unico.Wait;
+         -- Acceder a la memoria compartida de forma segura
+         if Numero = 1 then
+            -- CPU 1 carga, suma 13 y almacena en la posición 3
+            Memoria.Leer(1, Valor_Memoria);
+            A := Valor_Memoria + 13;
+            Memoria.Escribir(3, A);
+            if Debug then
+               Put_Line("CPU " & Numero'Image & " almacenó el valor: " & A'Image & " en la posición 3");
+            end if;
+         elsif Numero = 2 then
+            -- CPU 2 carga el resultado de CPU 1, suma 27 y almacena en la posición 4
+            Memoria.Leer(3, Valor_Memoria);
+            A := Valor_Memoria + 27;
+            Memoria.Escribir(4, A);
+            if Debug then
+               Put_Line("CPU " & Numero'Image & " almacenó el valor: " & A'Image & " en la posición 4");
+            end if;
+         end if;
+         Semaforo_Unico.Signal;
+
+         delay 0.1;  -- Simular un pequeño retardo en la ejecución
+      end loop;
    end CPU;
 
    -- Declaración de dos CPUs
@@ -125,11 +175,11 @@ begin
    Put_Line("Inicializando Semáforo...");
    Semaforo_Unico.Init(1);
 
-   -- Inicializar la memoria compartida (ya está lista al declarar la task)
+   -- Inicializar la memoria compartida con instrucciones y valores
    Put_Line("Memoria lista para ser utilizada.");
-
-   -- Escribir el valor inicial en la memoria
-   Memoria.Escribir(0, 8);
+   Memoria.Escribir(0, 1);  -- LOAD
+   Memoria.Escribir(1, 8);  -- Valor a cargar
+   Memoria.Escribir(2, 99); -- STOP
 
    -- Iniciar las CPUs
    CPU_1.Start;
@@ -142,7 +192,7 @@ begin
    declare
       Resultado_Final : Integer;
    begin
-      Memoria.Leer(0, Resultado_Final);
+      Memoria.Leer(4, Resultado_Final);
       Put_Line("Resultado final en la memoria: " & Resultado_Final'Image);
    end;
 
