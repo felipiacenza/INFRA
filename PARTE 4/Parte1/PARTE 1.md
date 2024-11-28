@@ -70,6 +70,6 @@ services:
     volumes:
       - ./workspace:/home/coder/project
     environment:
-      - PASSWORD=yourpassword
+      - PASSWORD=password
 
 ```
